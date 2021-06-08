@@ -1,0 +1,13 @@
+CREATE TABLE Companies(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    company_name TEXT NOT NULL
+);
+
+
+CREATE TABLE Users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    first_name TEXT NOT NULL,
+    salary DECIMAL CHECK(salary >= 100),
+    companies_id INTEGER NOT NULL,
+    FOREIGN KEY (companies_id) REFERENCES Companies(id)
+);
