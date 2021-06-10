@@ -63,7 +63,7 @@ app.put('/api/users/:id', async (req, res) => {
 });
 
 app.delete('/api/users/:id', async (req, res) => {
-    const userId = Number(req.params.user_id)
+    const userId = Number(req.params.id)
     const user = await prisma.users.delete({
         where: {
             id: userId
@@ -101,7 +101,11 @@ app.get('/api/users/:user_id/companies/', async (req, res) => {
 
 app.get('/api/posts/:user_id', async (req, res) => {
     const id = Number(req.params.user_id)
-    const posts = await prisma.posts;
+    const posts = await prisma.posts.findMany({
+        where:{
+            user_id: id
+        }
+    });
     if (posts !== null) {
         res.send(posts);
     } else {

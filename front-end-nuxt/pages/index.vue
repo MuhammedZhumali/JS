@@ -39,6 +39,11 @@
           >
             delete
           </button>
+          <button
+            class="absolute top-3 right-16 opacity-5 hover:opacity-100"
+          >
+            <router-link :to="{ name: 'EditUser', params: {id: user.id}}">Edit</router-link>
+          </button>
         </button>
       </div>
     </div>
@@ -68,6 +73,9 @@
         </div>
       </div>
     </div>
+  <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold mt-20 py-2 px-3 rounded focus:outline-none focus:shadow-outline" type="button">
+          <router-link :to="{ name: 'CreateUser'}">Create User</router-link>
+  </button>
   </div>
 </template>
 
@@ -97,7 +105,7 @@ export default {
       const id = this.users[user_id].id;
       const { data, status } = await app.get(`posts/${id}`);
       console.log(status);
-      console.log(user_id.first_name);
+      this.posts = data;
     },
     async deleteUser(index) {
       const id = this.users[index].id;
