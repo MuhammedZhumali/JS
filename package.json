@@ -1,7 +1,6 @@
 {
   "name": "node",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node app.js"
@@ -12,9 +11,20 @@
   "dependencies": {
     "@prisma/client": "^2.23.0",
     "cors": "^2.8.5",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^4.9.5",
+    "node-odata": "^0.7.16"
   },
   "devDependencies": {
     "prisma": "^2.24.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MuhammedZhumali/JS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MuhammedZhumali/JS/issues"
+  },
+  "homepage": "https://github.com/MuhammedZhumali/JS#readme",
+  "description": ""
 }

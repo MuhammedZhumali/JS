@@ -116,6 +116,9 @@ export default {
         this.users.splice(index);
       }
     },
+    EditUser(id) {
+      this.$router.push(`/editUser/?id=${id}`);
+    },
   },
 };
 </script>

@@ -1,24 +1,27 @@
-const express = require('express')
-const cors = require('cors')
 const { PrismaClient } = require('@prisma/client')
-
 const prisma = new PrismaClient()
-const app = express()
-app.use(express.json())
-app.use(cors()) // Чтобы давать доступ определенным IP адресам
-const port = process.env.port || 8080
+var odata = require('node-odata');
+var port = 3000;
+var server = odata('mongodb://localhost:27017/test');
 
-app.get('/', (req, res) => {
+server.resource('books', {
+  first_name: String,
+  salary: Number,
+  image_path: String
+});
+
+
+server.get('/', (req, res) => {
     res.status(200).send("HEllo World")
 })
 
-app.get('/api/users', async (req, res) => {
+server.get('/api/users', async (req, res) => {
     const users = await prisma.users.findMany()
     res.status(200).send(users)
 })
 
-app.get('/api/users/:id', async (req, res) => {
-    const userId = Number(req.params.id)
+server.get('/api/users/:id', async (req, res) => {
+    const userId = Number(req.params.user_id)
     const user = await prisma.users.findUnique({
         where: {
             id: userId
@@ -34,8 +37,8 @@ app.get('/api/users/:id', async (req, res) => {
     }
 })
 
-app.post('/api/users', async (req, res) => {
-    const { first_name, salary, companies_id } = req.body
+server.post('/api/users', async (req, res) => {
+    const { first_name, salary, image_path,companies_id } = req.body
     const user = await prisma.users.create({
         data: {
             first_name,
@@ -47,7 +50,7 @@ app.post('/api/users', async (req, res) => {
     res.status(200).send(user)
 })
 
-app.put('/api/users/:id', async (req, res) => {
+server.put('/api/users/:id', async (req, res) => {
     const userId = Number(req.params.id)
     const user = await prisma.users.update({
         where: {
@@ -62,7 +65,7 @@ app.put('/api/users/:id', async (req, res) => {
     }
 });
 
-app.delete('/api/users/:id', async (req, res) => {
+server.delete('/api/users/:id', async (req, res) => {
     const userId = Number(req.params.id)
     const user = await prisma.users.delete({
         where: {
@@ -76,7 +79,7 @@ app.delete('/api/users/:id', async (req, res) => {
     }
 });
 
-app.get('/api/users/:user_id/companies/', async (req, res) => {
+server.get('/api/users/:user_id/companies/', async (req, res) => {
     const id = Number(req.params.user_id)
     const user = await prisma.users.findUnique({
         where: {
@@ -99,7 +102,7 @@ app.get('/api/users/:user_id/companies/', async (req, res) => {
 });
 
 
-app.get('/api/posts/:user_id', async (req, res) => {
+server.get('/api/posts/:user_id', async (req, res) => {
     const id = Number(req.params.user_id)
     const posts = await prisma.posts.findMany({
         where:{
@@ -114,6 +117,6 @@ app.get('/api/posts/:user_id', async (req, res) => {
 });
 
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`You Site was started! Get in http://localhost:${port}`)
 })

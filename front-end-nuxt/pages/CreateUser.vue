@@ -59,24 +59,43 @@
 </template>
 
 
+
 <script>
-import axios from 'axios'
-  export default {
-    data() {
-      return {
-        users:[],
-      };
-    },
-    methods: {
-      async addUser() {
-        if(this.users.first_name!='' && this.users.salary!=''){
-            axios.post('/api/users', {first_name: this.first_name, salary: this.salary, image_path: this.image_path})
-            alert("User created")
-            console.log(this.data)
-        }else{
-          alert("Fill all field")
+import axios from "axios";
+const app = axios.create({ baseURL: "http://localhost:8080/api/" });
+export default {
+  data() {
+    return {
+      first_name: "",
+      salary: "",
+      image_path: "",
+      companies_id: "",
+    };
+  },
+  async mounted() {},
+  methods: {
+    async addUser() {
+      if (this.first_name == "" || this.image_path == "") {
+        console.log("Bad Inputs");
+        return;
+      } else {
+        let user = {
+          first_name: this.first_name,
+          salary: parseInt(this.salary == "" ? "0" : this.salary),
+          companies_id: parseInt(
+            this.companies_id == "" ? "0" : this.companies_id
+          ),
+          image_path: this.image_path,
+        };
+        const { data, status } = await app.post("users", user);
+        console.log(status);
+        console.log(data);
+        if (status == 200) {
+          console.log("200");
+          this.$router.push(`/`);
         }
       }
     },
-  }
+  },
+};
 </script>
